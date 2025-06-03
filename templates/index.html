@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Twitter Bot Setup</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">🤖</div>
+      <h1>Twitter Bot Setup</h1>
+      <p class="subtitle">Configure your automated Twitter bot in seconds</p>
+    </div>
+
+    <div class="info-note">
+      <span class="security-icon">✅</span>
+      This is a personal tool. Your Twitter API credentials will be stored locally in a <code>config.json</code> file. This allows the bot to automate tweets on your behalf. You can delete the file anytime to stop access.
+    </div>
+
+
+
+    <form method="post">
+      <div class="form-group">
+        <label for="api_key">API Key</label>
+        <input type="password" id="api_key" name="api_key" placeholder="Enter your Twitter API key" required />
+      </div>
+
+      <div class="form-group">
+        <label for="api_secret">API Secret</label>
+        <input type="password" id="api_secret" name="api_secret" placeholder="Enter your API secret" required />
+      </div>
+
+      <div class="form-group">
+        <label for="access_token">Access Token</label>
+        <input type="password" id="access_token" name="access_token" placeholder="Enter your access token" required />
+      </div>
+
+      <div class="form-group">
+        <label for="access_token_secret">Access Token Secret</label>
+        <input type="password" id="access_token_secret" name="access_token_secret" placeholder="Enter your access token secret" required />
+      </div>
+
+      <div class="form-group">
+        <label for="file_path">Tweet File Path</label>
+        <input type="text" id="file_path" name="file_path" placeholder="/path/to/your/tweets.txt" required />
+      </div>
+
+      <div class="form-group">
+        <label for="time_interval">Post Interval (seconds)</label>
+        <input type="number" id="time_interval" name="time_interval" placeholder="3600" min="60" required />
+      </div>
+
+      <button type="submit" class="submit-btn">Launch Bot 🚀</button>
+    </form>
+
+  </div>
+</body>
+</html>
