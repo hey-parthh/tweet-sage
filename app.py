@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, flash
 import json
+import threading
+from twitter_bot import run_scheduler
 
 app = Flask(__name__)
 
@@ -18,6 +20,9 @@ def index():
 
         with open("config.json","w") as f:
             json.dump(config, f, indent = 4)
+
+        thread = threading.Thread(target=run_scheduler, daemon=True)
+        thread.start()
         return redirect("/success")
     return render_template('index.html')
 
