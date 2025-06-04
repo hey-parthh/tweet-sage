@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="status">
+                <span class="status-dot"></span>
+                Bot Online
+            </div>
+            <h1>Bot Dashboard</h1>
+        </header>
+
+        <main>
+            <div class="tweets-section">
+                <h2>Latest Tweets Posted</h2>
+                <ul id="tweets-list">
+                    <li class="placeholder">Loading tweets...</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        async function fetchTweets() {
+            const response = await fetch('/tweets');
+            const data = await response.json();
+
+            const list = document.getElementById('tweets-list');
+            list.innerHTML = '';  // Clear old tweets
+
+            data.tweets.forEach(tweet => {
+                const li = document.createElement('li');
+                li.textContent = tweet;
+                list.appendChild(li);
+            });
+        }
+
+        // Fetch tweets every 5 seconds
+        setInterval(fetchTweets, 60000);
+
+        // Fetch immediately on load
+        fetchTweets();
+    </script>
+</body>
+</html>

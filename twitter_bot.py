@@ -16,6 +16,9 @@ def run_scheduler():
     file_path = config["file_path"]
     time_interval = config["time_interval"]
 
+    auth = tweepy.OAuth1UserHandler(api_key, api_secret, access_token, access_token_secret)
+    api = tweepy.API(auth)
+
     if not os.path.exists(file_path):
         print(f"File not found: {file_path}")
         exit()
@@ -41,7 +44,8 @@ def run_scheduler():
         try:
             client.create_tweet(text=final)
             print("Successfully posted:")
-            print(final)
+            with open("posted_tweets.log", 'a', encoding='utf-8') as log_file:
+                log_file.write(final + "\n---\n")
             return True  # Return True if tweet is posted successfully
         except tweepy.Forbidden as e:
             # If the error is due to a duplicate tweet, return False

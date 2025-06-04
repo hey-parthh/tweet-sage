@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, jsonify
 import json
 import threading
 from twitter_bot import run_scheduler
+import os
+
 
 app = Flask(__name__)
 
@@ -23,12 +25,25 @@ def index():
 
         thread = threading.Thread(target=run_scheduler, daemon=True)
         thread.start()
-        return redirect("/success")
+        return redirect("/dashboard")
     return render_template('index.html')
 
-@app.route("/success")
+@app.route("/dashboard")
 def success():
-    return "Configuration completed. Please run tweet_scheduler.py separately now."
+    return render_template('dashboard.html')
+
+@app.route('/tweets')
+def tweets():
+    if not os.path.exists('posted_tweets.log'):
+        return jsonify({"tweets": []})
+
+    with open('posted_tweets.log', 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    tweets_list = [t.strip() for t in content.split('---') if t.strip()]
+    # Return last 5 tweets (most recent)
+    last_tweets = tweets_list[-5:]
+    return jsonify({"tweets": last_tweets})
 
 if __name__=="__main__":
     app.run(debug=True)
